@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>To-Do List</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: azure;
+      }
+      .container {
+        display: flex;
+        flex-direction: row;
+      }
+      .left-pane {
+        width: 50%;
+        padding: 20px;
+        background-color: darkgray;
+      }
+      .right-pane {
+        width: 50%;
+        padding: 20px;
+        background-color:bisque;
+        
+      }
+      
+      h1 {
+        text-align: center;
+        color: darkcyan;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        justify-content: space-between;
+        border-bottom: 1px solid #101010; 
+        padding-bottom: 10px; 
+      }
+      input[type="checkbox"] {
+        margin-left: 450px;
+        width:20px;
+      }
+      .completed {
+        text-decoration: line-through;
+      }
+      .edit {
+        margin-left: 10px;
+        background-color:transparent;
+        border: black;
+        cursor: pointer;
+        margin-right: 20px;
+      }
+      .edit:hover {
+        text-decoration:black;
+      }
+      .edit:focus {
+        outline:invert;
+      }
+      
+      .checked-task {
+        text-decoration:line-through;
+      }
+    </style>
+  </head>
+  <body>
+    <h1> Today's To-Do List</h1>
+    <div class="container">
+      <div class="left-pane">
+        <h2 style="color: darkolivegreen;">Tasks List</h2>
+        <ul id="task-list"></ul>
+      </div>
+      <div class="right-pane">
+        <textarea id="task-input" style="font-size:xx-large;" rows="15" cols="50" autofocus placeholder="i need some text......"></textarea>
+      </div>
+    </div>
+    <script>
+      const taskList = document.getElementById("task-list");
+      const taskInput = document.getElementById("task-input");
+
+      // Load tasks from local storage
+      const loadTasks = () => {
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        tasks.forEach((task) => {
+          addTaskToList(task.name, task.completed);
+        });
+      };
+
+      // Add task to local storage
+      const addTaskToLocalStorage = (name, completed) => {
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        tasks.push({ name, completed });
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      };
+
+      // Remove task from local storage
+      const removeTaskFromLocalStorage = (name) => {
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        const filteredTasks = tasks.filter((task) => task.name !== name);
+        localStorage.setItem("tasks", JSON.stringify(filteredTasks));
+      };
+
+      // Update task in local storage
+      const updateTaskInLocalStorage = (oldName, newName) => {
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        const updatedTasks = tasks.map((task) => {
+          if (task.name === oldName) {
+            return { name: newName, completed: task.completed };
+          } else {
+            return task;
+          }
+        });
+        localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      };
+      let taskCounter = 1;
+      // Add task to list
+      const addTaskToList = (name, completed) => {
+        const taskLi = document.createElement("li");
+        const taskCheckbox = document.createElement("input");
+        taskCheckbox.type = "checkbox";
+        taskCheckbox.width="15px";
+        taskCheckbox.checked = completed;
+        taskCheckbox.addEventListener("change", () => {
+          if (taskCheckbox.checked) {
+            taskSpan.classList.add("checked-task");
+          } else {
+            taskSpan.classList.remove("checked-task");
+          }
+          updateTaskInLocalStorage(name, name);
+        });
+       // taskLi.appendChild(taskCheckbox);
+        const taskSpan = document.createElement("span");
+        taskSpan.innerText = name;
+        taskSpan.innerText = `${taskCounter}. ${name}`;
+        if (completed) {
+          taskSpan.classList.add("checked-task");
+        }
+        taskLi.appendChild(taskSpan);
+        taskLi.appendChild(taskCheckbox);
+        
+        const taskEditButton = document.createElement("button");
+taskEditButton.classList.add("edit");
+const editIcon = document.createElement("img");
+editIcon.src = "pen.png"; // Replace "pencil.png" with the path to your pencil image
+editIcon.alt = "Edit";
+editIcon.width-"20";
+editIcon.height="20";
+taskEditButton.appendChild(editIcon);
+taskEditButton.addEventListener("click", () => {
+  const newTaskName = prompt("Enter new task name:", name);
+  if (newTaskName !== null && newTaskName !== "") {
+    taskSpan.innerText = newTaskName;
+    taskSpan.innerText = `${taskCounter}. ${newTaskName}`;
+    updateTaskInLocalStorage(name, newTaskName);
+  }
+});
+taskLi.appendChild(taskEditButton);
+        const taskDeleteButton = document.createElement("button");
+        taskDeleteButton.innerHTML = "&times;";
+        taskDeleteButton.addEventListener("click", () => {
+          taskList.removeChild(taskLi);
+          removeTaskFromLocalStorage(name);
+        });
+        taskLi.appendChild(taskDeleteButton);
+        taskList.appendChild(taskLi);
+        taskCounter++;
+      };
+
+      // Add task when ENTER key is pressed
+      taskInput.addEventListener("keyup", (event) => {
+        if (event.key === "Enter") {
+          const taskName = taskInput.value.trim(); // Remove leading/trailing spaces
+          if (taskName !== "") {
+            addTaskToList(taskName, false);
+            addTaskToLocalStorage(taskName, false);
+            taskInput.value = "";
+          } else {
+            alert("Task name cannot be empty."); // Display error message
+          }
+        }
+      });
+
+      // Load tasks when page is loaded
+      window.addEventListener("load", () => {
+        loadTasks();
+      });
+    </script>
+  </body>
+</html>

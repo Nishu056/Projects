@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+
+<head>
+
+   <style>
+    body
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:Arial, Helvetica, sans-serif ;
+    background-color: rgb(222, 237, 241);
+}
+
+
+.heading
+{
+    background-color: skyblue;
+    color: white;
+    font-size: 2.5rem;
+    padding: 10px;
+    margin-top: 2px;
+}
+
+.sub-container
+{
+    display: grid;
+    grid-template-columns: 40% 58%;
+    grid-gap: 20px;
+}
+
+.left
+{  
+    background-color: rgb(245, 245, 245);
+    border-right: 1px solid lightblue;
+    min-height: 100%;
+    max-height: max-content;
+}
+
+.question-form
+{
+    display: flex;
+    height: max-content;
+    padding: 20px;
+    background-color: white;
+    justify-content: space-around;
+}
+#QuestionFormBtn
+{
+    text-decoration: none;
+    padding: 10px;
+    overflow: hidden;
+    color: white;
+    background-color: blue;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+#SearchQuestionBar
+{
+    font-size: 15px;
+    padding-left: 5px;
+    border-radius: 5px;
+    border-color: gray;
+}
+#QuestionFormBtn:hover, #SearchQuestionBar:hover
+{
+    scale: 110%;
+}
+
+#QuestionFormBtn:active, #SearchQuestionBtn:active
+{
+    color:skyblue;
+    background-color: white;
+}
+
+#question-list
+{
+    min-height: 75vh;
+    max-height: max-content;
+    border-top: 1px solid lightblue;
+}
+
+.right
+{
+    position: relative;
+    margin: 25px 0 0 50px;
+}
+
+#subjectBox
+{
+    height: 30px;
+    font-size: 20px;
+    width: 350px;
+    outline-color: rgb(109, 108, 108);
+    color:rgb(58, 57, 57);
+    padding-left: 8px;
+}
+
+#questionBox
+{
+    margin-top: 20px;
+    max-width: 90%;
+    font-size:20px ;
+    outline-color: rgb(77, 75, 75);
+    padding: 8px;
+}
+
+#submitButton
+{
+    padding: 5px;
+    margin-top: 8px;
+    font-size: 20px;
+    position: absolute;
+    max-width: 100%;
+    right: 7%;
+    background-color: blue;
+    color: white;
+    border-color: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#submitButton:hover
+{
+    scale: 110%;
+}
+
+#submitButton:active
+{
+    color:skyblue;
+    background-color: white;
+}
+
+
+.questionHeading,
+.question
+{
+    color:rgb(56, 56, 56);
+    margin-top: 15px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.questions
+{
+    word-wrap: break-word;
+    padding-right: 10px;
+}
+
+.questionContainer:hover
+{
+    cursor: pointer;
+}
+
+.hidden
+{
+    display: none;
+}
+
+#response-form-view
+{
+    height: max-content;
+}
+
+#question-container
+{
+    word-break: break-all;
+    padding-right: 10px;
+}
+
+#response-form-view #question-container
+{
+    background-color: rgb(245, 245, 245);
+    padding-left: 15px;
+    padding-top: 3px;
+    padding-bottom: 5px;
+    min-height: fit-content;
+    max-height: max-content;
+    max-width: 90%;
+    margin-top: 10px;
+}
+
+#resolveButtonContainer
+{
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: right;
+    width: 92%;
+    margin-top: 10px;
+}
+
+#resolveButton
+{
+    font-size: 20px;
+    color: white;
+    border: 2px solid transparent;
+    background-color: blue;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#resolveButton:hover
+{
+    cursor: pointer;
+    scale: 110%;
+}
+
+#resolveButton:active
+{
+    color:skyblue;
+    background-color: white;
+}
+
+#responses
+{
+    font-size: 20px;
+    min-height: 70px;
+    max-height: max-content;
+}
+
+#responseName
+{
+    height: 30px;
+    font-size: 20px;
+    width: 350px;
+    outline-color: rgb(109, 108, 108);
+    color:rgb(58, 57, 57);
+    padding-left: 8px;
+}
+
+#responseComment
+{
+    margin-top: 20px;
+    max-width: 90%;
+    font-size:20px ;
+    outline-color: rgb(77, 75, 75);
+    padding: 8px
+}
+
+#responseSubmitButton
+{
+    padding: 5px;
+    margin-top: 8px;
+    font-size: 20px;
+    position: absolute;
+    max-width: 100%;
+    right: 7%;
+    background-color: blue;
+    color: white;
+    border-color: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#responseSubmitButton:hover
+{
+    scale: 110%;
+}
+
+#responseSubmitButton:active
+{
+    color:skyblue;
+    background-color: white;
+}
+
+#responseContainer
+{
+    background-color: rgb(245, 245, 245);
+    min-height: fit-content;
+    max-height: max-content;
+    width: 90%;
+    padding-left: 10px;
+    margin-top: 10px;
+}
+
+.responseName1
+{
+    margin: 10px 0 10px 0;
+}
+
+.responseComment1
+{
+    font-size: 17px;
+}
+   </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="heading">
+            <span> Discussion Portal </span>
+        </div>
+
+        <div class="sub-container">
+            <div class="left">
+                <div class="question-form">
+                    <a href="#" id="QuestionFormBtn"> New Question Form</a>
+                    <input type="text" id="SearchQuestionBar" placeholder="Search Questions.....">
+                </div>
+
+                <div id = "question-container">
+
+                </div>
+            </div>
+
+            <div class="right">
+                <div id = "Welcome-view">
+                    <h1> Welcome to Discussion Portal !</h1>
+                    <h4 style="color: rgb(100, 100, 100);">Enter a Subject and question to get started </h4>
+
+                    <form id="questionForm">
+                        <div>
+                            <input type="text" placeholder="Subject" id="subjectBox" required>
+                        </div>
+
+                        <div>
+                            <textarea id="questionBox" rows="7" cols="62" placeholder="Question" required></textarea>
+                        </div>
+
+                        <div>
+                            <button type="submit" id="submitButton" value="Submit"> Submit </button>
+                        </div>
+                    </form>
+
+                </div>
+                <div id = "response-form-view" class="hidden">
+                    <span style="font-size: 30px; color: lightblue; ">Question</span>
+
+                    <div id = "question-container">
+                        <h3 id = "questionHeading"></h3>
+                        <p id = "question"></p>
+                    </div>
+
+                    <div id = "resolveButtonContainer">
+                        <!-- <button type="submit" id="resolveButton" value="Submit"> Resolve </button> -->
+                        <span id="resolveButton">Resolve</span>
+                    </div>
+
+                    <div id = "responses">
+                        <span style="font-size: 20px; color: lightblue";>Response</span>
+                        <div id = "responseContainer"></div>
+                    </div>
+
+                    <form id="responseform">
+                        <h1 style="font-size: 30px; color: lightblue; margin-top: 50px;">Add Response</h1>
+                        <div>
+                            <input type="text" placeholder="Enter Name" id="responseName" required>
+                        </div>
+                    
+                        <div>
+                            <textarea id="responseComment" rows="7" cols="62" placeholder="Enter Comment" required></textarea>
+                        </div>
+                    
+                        <button type="submit" id="responseSubmitButton" value="Submit"> Submit </button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>const subjectBox = document.getElementById("subjectBox");
+        const questionBox = document.getElementById("questionBox");
+        const submitBtn = document.getElementById("submitButton");
+        const welcomeView = document.getElementById("Welcome-view");
+        const questionFormBtn = document.getElementById("QuestionFormBtn");
+        const questionContainer = document.getElementById("question-container");
+        
+        const questionHeadingResponseForm = document.getElementById("questionHeading");
+        const questionResponseForm = document.getElementById("question");
+        
+        const responseFormView = document.getElementById("response-form-view");
+        
+        
+        const responseContainer = document.getElementById("responseContainer");
+        const responseName = document.getElementById("responseName");
+        const responseComment = document.getElementById("responseComment");
+        const responseSubmitButton = document.getElementById("responseSubmitButton");
+        
+        const resolveButton = document.getElementById("resolveButton");
+        
+        const Responses = document.getElementById("responses");
+        
+        questionFormBtn.addEventListener('click',()=>
+        {
+            welcomeView.classList.remove("hidden");
+            responseFormView.classList.add("hidden");
+        });
+        
+        submitBtn.addEventListener('click',function(event)
+        {
+            if(subjectBox.value !== "" && questionBox.value !== "")
+            {
+                questionContainer.classList.add("questionContainer");
+        
+                //Question ko store krne ke liye ek new div tag 
+                const questionElement = document.createElement("div");
+                questionElement.className = "questions";
+        
+                const questionHeading = document.createElement("h2");
+                questionHeading.classList.add("questionHeading");
+                questionHeading.textContent = subjectBox.value;
+        
+                const question = document.createElement("p");
+        
+                question.classList.add("question");
+                question.textContent = questionBox.value;
+                
+                const hr =  document.createElement("hr");
+                
+                //Question heading and question ko jo question store krne ke liye div tag bnaaya tha, usme append 
+                questionElement.appendChild(questionHeading);
+                questionElement.appendChild(question);
+        
+                //jo hmaara html code question container  hai usme question ko append krna
+                questionElement.appendChild(hr);
+                questionContainer.appendChild(questionElement);
+                //questionContainer.appendChild(hr);
+        
+                subjectBox.value = "";
+                questionBox.value = "";
+                alert("Response Submitted");
+                event.preventDefault();
+        
+                const searchBar = document.getElementById("SearchQuestionBar");
+        
+                searchBar.addEventListener('input',function()
+                {
+                    let searchTerm = searchBar.value.toLocaleLowerCase();
+                    const questionElements = document.querySelectorAll(".questions");
+        
+                    questionElements.forEach((Element) => {
+        
+                        const questionTitle = Element.querySelector(".questionHeading").innerText.toLowerCase();
+                      
+                        const questionText = Element.querySelector(".question").innerText.toLowerCase();
+        
+                        if (questionTitle.includes(searchTerm) || questionText.includes(searchTerm)) 
+                        {
+                            Element.style.display = "block";
+                        } 
+                        else 
+                        {
+                            Element.style.display = "none";
+                        }
+                    });
+                }); 
+        
+                questionElement.addEventListener('click', function() 
+                {        
+                    showResponseForm(questionHeading,question);
+                });
+        
+            }
+        });
+        
+        function showResponseForm(questionHeading,question)
+        {
+            welcomeView.classList.add("hidden");
+            responseFormView.classList.remove("hidden");
+        
+            var oldData = null;
+            let value = questionHeading.textContent + question.textContent;
+            oldData = localStorage.getItem(value);
+            
+            if(oldData !== null)
+            {
+                responseContainer.innerHTML = oldData;
+            }
+            else
+            {
+                responseContainer.innerHTML = "";
+            }
+            questionHeadingResponseForm.textContent = questionHeading.textContent;
+            questionResponseForm.textContent = question.textContent;
+        }
+        
+        resolveButton.addEventListener('click',()=>
+        {
+            const questionElements = document.querySelectorAll(".questions");
+            questionElements.forEach((Element) => {
+                var value = questionHeadingResponseForm.textContent + questionResponseForm.textContent;
+                if(Element.textContent === value)
+                {
+                    if(confirm("Are you sure you want to Resolve this Query ?"))
+                    {
+                        Element.remove();
+                        responseContainer.innerHTML = "";
+                        localStorage.setItem(value,responseContainer.innerHTML);
+                        welcomeView.classList.remove("hidden");
+                        responseFormView.classList.add("hidden");
+                    }
+                }
+            });
+        });
+        
+        responseSubmitButton.addEventListener('click',(event) =>
+        {
+            if(responseName.value !== "" && responseComment.value !== "")
+            {
+                // Response ko store krne ke liye div element as like question div element
+                const response = document.createElement("div");
+                //response.className = "resAk"
+                response.style.paddingTop = "7px";
+                response.style.paddingLeft = "10px";
+                
+                const name = document.createElement("h4");
+                name.classList.add("responseName1")
+        
+                // Here resp variable name is used for response which user will enter
+                const resp = document.createElement("p");
+                resp.classList.add("responseComment1");
+                const hr = document.createElement("hr");
+        
+                // Name and Response me value copy
+                name.textContent = responseName.value;
+                resp.textContent = responseComment.value;
+        
+                // Response form ke input fields ki value blank krne ke liye
+                responseName.value = "";
+                responseComment.value = "";
+        
+        
+                // Response element me name and resp (response) appendation
+                response.appendChild(name);
+                response.appendChild(resp);
+        
+                responseContainer.appendChild(response);
+                responseContainer.appendChild(hr); 
+        
+                Responses.appendChild(responseContainer);
+        
+                var user = questionHeading.textContent + question.textContent;
+                    
+                localStorage.setItem(user,responseContainer.innerHTML);
+                event.preventDefault();
+            } 
+        });
+        
+        // Page refresh hone pr ya page close krne pr local storage clear krne ke liye
+        
+        window.onabort
+        {
+            localStorage.clear(); 
+        } </script>
+</body>
+
+</html>
